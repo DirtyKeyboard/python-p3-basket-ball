@@ -1,3 +1,4 @@
+import ipdb
 def game_dict():
     return {
         "home": {
@@ -182,3 +183,72 @@ def game_dict():
             ]
         }
     }
+
+def num_points_per_game(name):
+    for player in game_dict()['home']['players']:
+        if player['name'] == name:
+            return player['points_per_game']
+
+    for player in game_dict()['away']['players']:
+        if player['name'] == name:
+            return player['points_per_game']
+        
+
+def player_age(name):
+    for player in game_dict()['home']['players']:
+        if player['name'] == name:
+            return player['age']
+
+    for player in game_dict()['away']['players']:
+        if player['name'] == name:
+            return player['age']    
+
+def team_colors(team):
+    if game_dict()['home']['team_name'] == team:
+        return game_dict()['home']['colors']
+    elif game_dict()['away']['team_name'] == team:
+        return game_dict()['away']['colors']
+
+def team_names():
+    return [f"{game_dict()['home']['team_name']}", f"{game_dict()['away']['team_name']}"]
+
+def player_numbers(team_name): ##game_dict()['home']['players'][i]['number']
+    ret = []
+    if game_dict()['home']['team_name'] == team_name:
+        for player in game_dict()['home']['players']:
+            ret.append(player['number'])
+    elif game_dict()['away']['team_name'] == team_name:
+        for player in game_dict()['away']['players']:
+            ret.append(player['number'])
+    return ret
+
+def player_stats(name):
+    for player in game_dict()['home']['players']:
+        if player['name'] == name:
+            return player
+
+    for player in game_dict()['away']['players']:
+        if player['name'] == name:
+            return player
+
+def average_rebounds_by_shoe_brand():
+    #brands are Nike, Jordan, Adidas, and Puma
+    rebounds = {
+        "Nike": [],
+        "Adidas": [],
+        "Puma": [],
+        "Jordan": []
+    }
+    for player in game_dict()['home']['players']:
+        rebounds[player['shoe_brand']].append(player['rebounds_per_game'])
+
+    for player in game_dict()['away']['players']:
+        rebounds[player['shoe_brand']].append(player['rebounds_per_game'])
+
+
+    for el in rebounds:
+        tracker = 0
+        for num in rebounds[el]:
+            tracker+=num
+            if rebounds[el].index(num) == len(rebounds[el])-1:
+                print(f'{el}:  {tracker/len(rebounds[el]):.2f}')
